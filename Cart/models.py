@@ -42,13 +42,25 @@ class Order(models.Model):
 class Cart(models.Model):
     Cart_id = models.AutoField(primary_key=True)
     User = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    Total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    Total_price = models.DecimalField(max_digits=12, decimal_places=2, default=0)  # Add this line to define the 'Total_price' field
     Notes = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Calculate the total price when saving the Cart
+        self.Total_price = sum(cart_product.Product.price * cart_product.Quantity for cart_product in self.cart_product_set.all())
+        super().save(*args, **kwargs)
+
 
 class Cart_Product(models.Model):
     Cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
     Product = models.ForeignKey(Item_product, on_delete=models.CASCADE, blank=True, null=True)
+    Quantity = models.IntegerField(default=1)
 
+    def save(self, *args, **kwargs):
+        # Calculate the total price when saving the Cart_Product
+        self.Cart.Total_price += self.Product.price * self.Quantity
+        self.Cart.save()
+        super().save(*args, **kwargs)
 
 class Order_Product(models.Model):
     Order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)

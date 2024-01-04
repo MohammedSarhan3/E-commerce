@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% load static %}
 {% block body %}
-
+<!--
 <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -27,10 +27,16 @@
     <div class="carousel-caption d-none d-md-block" style="animation-name: fadeIn;">
       <h5 style="animation-delay: 0.5s;animation-name: fadeIn;">مرحبًا بك في متجر</h5>
       <p style="animation-delay: 1s;animation-name: fadeIn;">       كلية الإقتصاد المنزلي جامعة العريش   </p>
+      {% if user.is_authenticated %}
+      <h5 >   </h5>
+
+      {% else %}
+
       <div class="button-container" style="animation-delay: 1.1s;animation-name: fadeIn;">
         <button class="btn btn-primary" style="animation-delay: 1.1s;animation-name: fadeIn;">تسجيل الدخول</button>
         <button class="btn btn-secondary" style="animation-delay: 1.1s;animation-name: fadeIn;">حساب جديد</button>
       </div>
+      {% endif %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -42,9 +48,476 @@
     </button>
    
   </div>
+  -->
   
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap');
+
+   .body
+   {
+       margin: 0;
+       width: 100%;
+       height: 70vh;
+       display: flex;
+       background-color: #cdcaca;
+       transition: background-color 1s;
+       font-family: 'Belanosima', sans-serif;
+       overflow: hidden;
+       margin-bottom: 60px;
+   }
+   .darksoul-carousel
+   {
+       margin: auto;
+       width: 900px;
+       height: 400px;
+       background-color: rgba(0, 0, 0, 0);
+       display: flex;
+       cursor: pointer;
+       flex-direction: row-reverse;
+   }
+   @keyframes carousel-move {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+   .apple
+   {
+       margin: auto;
+       width: 600px;
+       height: 80%;
+       background-color: #5193c5;
+       border-radius: 15px;
+       transition: width 2s;
+       display: flex;
+       flex-direction: column;
+   }
+   .orange
+   {
+       margin: auto;
+       width: 100px;
+       height: 80%;
+       background-color: #5193c5;
+       border-radius: 15px;
+       transition: width 2s;
+       display: flex;
+       flex-direction: column;
+   }
+   .lemon
+   {
+       margin: auto;
+       width: 100px;
+       height: 80%;
+       background-color:#3884bd;
+       border-radius: 15px;
+       transition: width 2s;
+       display: flex;
+       flex-direction: column;
+
+   }
+   .strawberry
+   {
+       margin: auto;
+       width: 100px;
+       height: 80%;
+       background-color: 	#1f75b5;
+       border-radius: 15px;
+       transition: width 2s;
+       display: flex;
+       flex-direction: column;
+   }
+   #appleimg
+   {
+       position: absolute;
+       width: 255px;
+       height: 255px;
+       margin-left: 10px;
+       margin-top: 5px;
+       transition: visibility 2s;
+       z-index: -2;
+       
+   }
+   #lemonimg
+   {
+       position: absolute;
+       width: 255px;
+       height: 255px;
+       margin-left: 10px;
+       margin-top: 5px;
+       visibility: hidden;
+       transition: visibility 2s;
+       z-index: -2;
+   }
+   #strawberryimg
+   {
+       position: absolute;
+       width: 255px;
+       height: 255px;
+       margin-left: 10px;
+       margin-top: 5px;
+       visibility: hidden;
+       transition: visibility 2s;
+       z-index: -2;
+   } 
+   #orangeimg
+   {
+       position: absolute;
+       width: 255px;
+       height: 255px;
+       margin-left: 10px;
+       margin-top: 5px;
+       visibility: hidden;
+       transition: visibility 2s;
+       z-index: -2;
+   }
+   #appletext
+   {
+       font-size: 30px;
+       margin: auto;
+       color: rgb(18, 14, 14);
+       font-family: 'Aref Ruqaa', serif;
+
+       font-weight: 900;
+   }
+   #lemontext
+   {
+       margin: auto;
+       color: 	#ffffff;
+       font-family: 'Aref Ruqaa', serif;
+
+       font-weight: 900;
+       font-size: 30px;
+       rotate: 90deg;
+   }
+   #strawberrytext
+   {
+       margin: auto;
+       color: rgb(0, 0, 0);
+       font-family: 'Aref Ruqaa', serif;
+
+       font-weight: 900;
+       font-size: 30px;
+       rotate: 90deg;
+   }
+   #orangetext
+   {
+       margin: auto;
+       color: rgb(255, 255, 255);
+       font-family: 'Aref Ruqaa', serif;
+       font-weight: 900;
+       font-size: 90px;
+       rotate: 90deg;
+   }
+   @keyframes down 
+   {
+       0%
+       {
+           width: 200px;
+           height: 200px;
+           transform: translate(0px,0px);
+       }
+       100%
+       {
+           visibility: visible;
+           width: 250px;
+           height: 250px;
+           transform: translate(0px,-150px);
+       }
+   }
+   @keyframes visibility-h 
+   {
+
+       100%
+       {
+           visibility: hidden;
+       } 
+   }
+
+   @keyframes text 
+   { 
+       0%
+       {
+           font-size: 30px;
+           rotate: 90deg;
+       }
+       100%
+       {
+           rotate: 0deg;
+           font-size: 150px;
+       } 
+   }
+   @keyframes text-back 
+   { 
+       0%
+       {
+           font-size: 150px;
+           rotate: 0deg;
+       }
+       100%
+       {
+           font-size: 30px;
+           rotate: 90deg;
+       } 
+   }
+  #bgimg1
+  {
+   position: absolute;
+   left: 10px;
+   width: 220px;
+   height: 220px;
+   top: 90px; /* Set top to 0 */
+
+  }
+  #bgimg2
+  {
+   position: absolute;
+   left: 10px;
+   bottom: 0px;
+   width: 250px;
+   height: 250px;
+
+  }
+  #bgimg3
+  {
+   position: absolute;
+   right: 50px;
+   width: 200px;
+   height: 200px;
+   top: 90px; /* Set top to 0 */
+
+  }
+  #bgimg4
+  {
+   position: absolute;
+   right: 10px;
+   bottom: 0px;
+   width: 200px;
+   height: 200px;
+  }
+  .disclaimer
+   {
+       position: absolute;
+       bottom: 0px; 
+       left: 0; 
+       margin-left: auto; 
+       right: 0; 
+       margin-right: auto; 
+       width: fit-content;
+       color: rgb(255, 255, 255);
+       text-align: center;
+   }
+   .disclaimer a
+   {
+       text-decoration: none;
+       color: #861212;
+   }
+   .disclaimer a:hover
+   {
+       font-weight: bolder;
+   }
+   ::selection
+   {
+       background-color: #00000000;
+       color: rgb(0, 0, 0);
+   }
+
+   .apple-image {
+    width: 150px;
+    height: 150px;
+    top: 150px;
+}
+
+.skirt-image {
+    width: 150px;
+    height: 150px;
+}
+
+.jacket-image {
+    width: 150px;
+    height: 150px;
+    top: 150px;
+}
+
+.onesie-image {
+    width: 150px;
+    height: 150px;
+}
+   
+    </style>
+</head>
+    <div id="body" class="body" >
+    <div class="darksoul-carousel">
+        <img src=""  id="bgimg1"/>
+        <img src="" id="bgimg2"/>
+        <img src="" id="bgimg3"/>
+        <img src="" id="bgimg4"/>
+        
+        <div class="apple" onclick="{apple()}" id="apple">
+            <img style="margin-right: 30px; margin-top: 15px;" width="36" height="36" src="{% static 'images/clothes-rack.png' %}" alt="external-apple-sports-and-awards-smashingstocks-glyph-smashing-stocks"/>
+            <h1 id="appletext">ملابس</h1>
+           <img src="https://darksoul-codepen.github.io/Fruits%20Carousel/apple.png" id="appleimg"/>
+        </div>
+        <div class="lemon" onclick="{lemon()}" id="lemon">
+            <img style="margin-right: 30px; margin-top: 15px;" width="36" height="36" src="https://img.icons8.com/glyph-neue/64/1A1A1A/citrus.png" alt="citrus"/>
+            <img src="https://darksoul-codepen.github.io/Fruits%20Carousel/lemon.png" id="lemonimg"/>
+            <h1 id="lemontext">مصنوعات </h1>
+        </div>
+        <div class="strawberry" onclick="{strawberry()}" id="strawberry">
+            <img style="margin-right: 30px; margin-top: 15px;" width="36" height="36" src="{% static 'images/school-bag.png' %}" alt="external-Strawberry-food-smashingstocks-glyph-smashing-stocks"/>
+            <img src="https://darksoul-codepen.github.io/Fruits%20Carousel/strawberry.png" id="strawberryimg"/>
+            <h1 id="strawberrytext">شنط</h1>
+        </div>
+        <div class="orange" onclick="{orange()}" id="orange">
+          <a href="https://www.flaticon.com/free-icons/shoes" title="shoes icons"></a>
+            <img style="margin-right: 30px; margin-top: 10px;" width="36" height="36" src="{% static 'images/sneakers.png' %} " alt="citrus-1"/>
+            <img src="https://darksoul-codepen.github.io/Fruits%20Carousel/orange.png" id="orangeimg"/>
+            <h1 id="orangetext"> أحذية</h1>
+        </div>
+    </div>
+</div>
+    
+<script>
+            var applediv = document.getElementById("apple");
+        var orangediv = document.getElementById("orange");
+        var lemondiv = document.getElementById("lemon");
+        var strawberrydiv = document.getElementById("strawberry");
+
+        var bodycolor = document.getElementById("body");
+
+        var appleimg = document.getElementById("appleimg");
+        var lemonimg = document.getElementById("lemonimg");
+        var orangeimg = document.getElementById("orangeimg");
+        var strawberryimg = document.getElementById("strawberryimg");
+
+        var appletext = document.getElementById("appletext");
+        var lemontext = document.getElementById("lemontext");
+        var strawberrytext = document.getElementById("strawberrytext");
+        var orangetext = document.getElementById("orangetext");
+
+        var bgimg1 = document.getElementById("bgimg1");
+        var bgimg2 = document.getElementById("bgimg2");
+        var bgimg3 = document.getElementById("bgimg3");
+        var bgimg4 = document.getElementById("bgimg4");
+
+        apple();
+
+        function apple() 
+        {
+            applediv.style.width = "600px";
+            orangediv.style.width = "100px";
+            lemondiv.style.width = "100px";
+            strawberrydiv.style.width = "100px";
+
+            bodycolor.style.backgroundColor = "#3498db"; // Blue background
+
+            orangeimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            lemonimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            strawberryimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            appleimg.style.animation = "down 1s linear 0s 1 normal forwards";
+
+            lemontext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            strawberrytext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            orangetext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            appletext.style.animation = "text 1s linear 0s 1 normal forwards";
+            
+            bgimg1.src = "{% static 'images/clothes.png' %}";
+    
+
+    bgimg2.src = "{% static 'images/skirt.png' %}";
   
-  
+
+    bgimg3.src = "{% static 'images/onesie.png' %}";
+    
+
+    bgimg4.src = "{% static 'images/jacket.png' %}";
+    
+
+            bgimg1.className = "apple-image";
+            bgimg2.className = "skirt-image";
+            bgimg3.className = "jacket-image";
+            bgimg4.className = "onesie-image";
+
+        }
+        apple();
+        function lemon() 
+        {
+            lemondiv.style.width = "600px";
+            orangediv.style.width = "100px";
+            applediv.style.width = "100px";
+            strawberrydiv.style.width = "100px";
+
+            bodycolor.style.backgroundColor = "#DCE9F3"; // Red background
+
+            orangeimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            appleimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            strawberryimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            lemonimg.style.animation = "down 1s linear 0s 1 normal forwards";
+
+            appletext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            strawberrytext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            orangetext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            lemontext.style.animation = "text 1s linear 0s 1 normal forwards";
+
+            bgimg1.src = "{% static 'images/20rembg.png' %}";
+            bgimg2.src = "{% static 'images/16rembg.png' %}";
+            bgimg3.src = "{% static 'images/18rembg.png' %}";
+            bgimg4.src = "{% static 'images/200rembg.png' %}";
+
+
+        }
+        
+        function strawberry() 
+        {
+            strawberrydiv.style.width = "600px";
+            applediv.style.width = "100px";
+            orangediv.style.width = "100px";
+            lemondiv.style.width = "100px";
+
+            bodycolor.style.backgroundColor = "#f39c12"; // Yellow background
+
+            orangeimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            appleimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            lemonimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            strawberryimg.style.animation = "down 1s linear 0s 1 normal forwards";
+
+            appletext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            orangetext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            lemontext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            strawberrytext.style.animation = "text 1s linear 0s 1 normal forwards";
+
+            bgimg1.src = "{% static 'images/56rembg.png' %}";
+            bgimg2.src = "{% static 'images/52rembg.png' %}";
+            bgimg3.src = "{% static 'images/38rembg.png' %}";
+            bgimg4.src = "{% static 'images/31rembg.png' %}";
+        }
+        function orange() 
+        {
+            orangediv.style.width = "600px";
+            applediv.style.width = "100px";
+            lemondiv.style.width = "100px";
+            strawberrydiv.style.width = "100px"; 
+
+            bodycolor.style.backgroundColor = "#2ecc71"; // Green background
+
+            appleimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            lemonimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            strawberryimg.style.animation = "visibility-h 0s linear 0s 1 normal forwards";
+            orangeimg.style.animation = "down 1s linear 0s 1 normal forwards";
+
+            appletext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            lemontext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            strawberrytext.style.animation = "text-back 1s linear 0s 1 normal forwards";
+            orangetext.style.animation = "text 1s linear 0s 1 normal forwards";
+
+            bgimg1.src = "{% static 'images/7rembg.png' %}";
+            bgimg2.src = "{% static 'images/5rembg.png' %}";
+            bgimg3.src = "{% static 'images/11rembg.png' %}";
+            bgimg4.src = "{% static 'images/3rembg.png' %}";
+        }
+       
+</script>
   
   
   
@@ -93,133 +566,35 @@
   padding: 3em 1em 1em 1em;
   box-sizing: border-box;
   ">
+  {% for product in products %}
   <div class="card-1 card-div">
-      
-       
     <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
-            </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </div>
+      <span style="position: absolute; top: -10px; right: 80%; color: white; padding: 2px 5px;">
+        <img src="{% static 'images/download.png' %}" style="height: 30px; width: 60px;" alt="">
+      </span>
+      <img src="{{ product.product_image_set.first.Image.url }}" alt="{{ product.Product_name }} Image">
+
   </div>
-  <div class="card-1 card-div">
+    <div class="text-container">
+      <a href="{% url 'product_detail' pk=product.pk %}" style="text-decoration: none;"><h2 class="item-name">{{ product.Product_name }}</h2></a>
+      <p class="date">{{ product.Category.Name }}</p>
+      <div class="pricing-and-cart">
+        <div class="pricing">
+          <p class="previous-price"> {{ product.discounted_price }}</p>
+          <p class="current-price">{{ product.price }}LE</p>
+        </div>
+        <a href="#" class="add-to-cart" data-product-id="{{ product.pk }}">
+          <i class="fas fa-shopping-cart"></i>
+      </a>
+
       
-       
-    <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
             </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
+
     </div>
+
   </div>
-  <div class="card-1 card-div">
-      
-       
-    <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
-            </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </div>
-  </div>
-  <div class="card-1 card-div">
-      
-       
-    <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
-            </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </div>
-  </div>
-  <div class="card-1 card-div">
-      
-       
-    <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
-            </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </div>
-  </div>
-  <div class="card-1 card-div">
-      
-       
-    <div class="gow-img-div img-div" style="position: relative;">
-      <span style="position: absolute; top: -10px; right: 80%;  color: white; padding: 2px 5px; ">
-        <img src="{% static 'images/download.png'%}" style="height: 30px; width: 60px;" alt="">
-        </span>
-        <img src="{% static 'images/55.png'%}" alt="god-of-war-figurine">
-    </div>
-    <div class="text-container">
-        <h2 class="item-name">شنطة يد - تطريز بدوي</h2>
-        <p class="date"> قسم تطريز يدوي </p>
-        <div class="pricing-and-cart">
-            <div class="pricing">
-                <p class="previous-price">250LE</p>
-                <p class="current-price">200LE</p>
-            </div>
-            <a href="https://www.facebook.com/profile.php?id=100064762120123"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </div>
-  </div>
-  
+
+{% endfor %}
   
   
   
@@ -287,4 +662,47 @@
     <img src="{% static 'images/48.jpeg' %} " style="height: 170px;" alt="">
   
   </div>
+  <script>
+    $(document).ready(function () {
+        $('.add-to-cart').on('click', function (event) {
+            event.preventDefault(); // Prevent the default behavior (following the link)
+    
+            var productId = $(this).data('product-id');
+            var clickedButton = $(this); // Store the clicked button
+    
+            $.ajax({
+                type: 'POST',
+                url: '{% url "add_to_cart" product_id=0 %}'.replace('0', productId),
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    // Check if the response contains a success message
+                    if (response.message) {
+                        // Get the parent card container using the stored variable
+                        var cardContainer = clickedButton.closest('.card-1');
+
+                        // Insert the success message inside the card
+                        cardContainer.append('<div class="alert alert-success">' + response.message + '</div>');
+
+                        // You can also use fade effects or other animations
+                        cardContainer.find('.alert-success').fadeIn().delay(3000).fadeOut();
+                    }
+    
+                    // Update the cart icon or handle any other response
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+
+    
+    <!-- Add this container to your HTML where you want the success message to appear -->
+    
+    
+    
 {% endblock body %}

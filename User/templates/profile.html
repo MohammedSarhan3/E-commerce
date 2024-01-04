@@ -28,8 +28,15 @@
                 <div class="account-settings">
                     <div class="user-profile">
                         <div class="user-avatar">
+                            {% if user.Image %}
                                 <img src="{{ user.Image.url }}" alt="{{ user.first_name }} {{ user.last_name }}">
+                            {% else %}
+                            <img src="https://gravatar.com/avatar/eb45e8ca94071ac3ef15091da2f09b6c?s=400&d=mp&r=x" alt="{{ user.first_name }} {{ user.last_name }}">
+
+                            {% endif %}
                         </div>
+
+                        
                         <!-- Add this to your template for debugging -->
 
 
@@ -143,18 +150,55 @@
         </div>
         </div>
     </div>
-    <div class="container">
+<!-- profile.html -->
+<!-- profile.html -->
+<div class="container container22" >
+    <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="card h-70">
+        <div class="card-body">
+            
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" >
+    <!-- profile.html -->
+<div class="card h-100">
+    <!-- profile.html -->
+<div class="card h-100">
+    <div class="card-body">
         <div class="row gutters">
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <h2>رقم الهاتف</h2>
-                <ul>
+                <h2 class="mb-4">رقم الهاتف</h2>
+                <ul class="list-group">
                     {% for phone_number in user_phone_numbers %}
-                        <li>{{ phone_number.Phone_num }} <a href="{% url 'delete_phone_number' phone_number.id %}">Delete</a></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ phone_number.Phone_num }}
+                            <a href="{% url 'delete_phone_number' phone_number.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </li>
                     {% endfor %}
                 </ul>
+                
+                <!-- Add button to add a new phone number -->
+                <a href="{% url 'manage_phone_numbers' %}" class="btn btn-primary mt-3">إضافة رقم  </a>
             </div>
         </div>
     </div>
+</div>
+
+</div>
+
+    </div>
+    
+    </div>
+    </div>
+</div>
+
+
+
     
 <!-- Footer -->
 

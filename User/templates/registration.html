@@ -129,6 +129,13 @@
               <input type="password" class="form-control" id="id_password2" name="password2" required>
             </div>
           </div>
+          {% if form.errors %}
+          <div class="alert alert-danger" style="text-align: right; " role="alert">
+            <p style="margin: 0;">برجاء إدخال البريد الإلكتروني بشكل صحيح</p>
+            <p style="margin: 0;">كلمة المرور قصيرة للغاية يرجي كتابة 8 أحرف علي الاقل     </p>
+        
+          </div>
+        {% endif %}
           <button type="submit" class="btn btn-primary btn-block btnn">إنشاء حساب</button>
           <div class="text-center mt-3">
             <p>أو إنشاء حساب بإستخدام</p>
@@ -138,12 +145,7 @@
           <div class="text-center mt-3">
             <a href=""><button type="button" class="btn btn-link">تسجيل الدخول</button></a>
           </div>
-          {% if form.errors %}
-  <div class="alert alert-danger" role="alert">
-    <strong>Oops!</strong> There was an error with your submission.
-    {{ form.errors }}
-  </div>
-{% endif %}
+        
         </form>
         
       </div>

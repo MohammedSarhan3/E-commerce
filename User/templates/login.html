@@ -111,6 +111,9 @@
           <div class="form-group">
             <input type="password" class="form-control" name="password" id="password" placeholder="كلمة المرور">
           </div>
+          {% if form.errors %}
+    <p class="alert alert-danger" style="font-size: 14px; text-align:center;">يرجي التأكد من  البريد الإلكتورني وكلمة السر  </p> 
+{% endif %}
           <button type="submit" class="btn btn-primary btn-block btnn">تسجيل الدخول</button>
           <div class="text-center mt-3">
             <p>أو سجل الدخول بإستخدام</p>
@@ -118,12 +121,8 @@
            <a href=""><i class="fa-brands fa-google  fa-xl"></i></a> 
           </div>
           <div class="text-center mt-3">
-            {% if form.errors %}
-    <div class="alert alert-danger">
-        {{ form.errors }}
-    </div>
-{% endif %}
-            <button type="button" class="btn btn-link ">إنشاء حساب جديد</button>
+         <a href="{% url 'register_view' %}"> <button type="button" class="btn btn-link ">إنشاء حساب جديد</button></a>
+
           </div>
         </form>
       </div>

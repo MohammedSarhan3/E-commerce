@@ -1,38 +1,22 @@
-from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from django.contrib.auth import views as auth_views
-from django.db import IntegrityError
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-
-from .forms import LoginForm, CustomerRegistrationForm,AdminRegistrationForm,CustomUserChangeForm, CustomerEditForm,AdminProfileForm
+from .forms import LoginForm, CustomerRegistrationForm,AdminRegistrationForm,CustomUserChangeForm, CustomerEditForm,AdminProfileForm,UserPhoneNumForm
 from django.contrib.auth.decorators import login_required
 from .models import Customer,Admin,User_Phone_Num
 from django.contrib.auth.views import LoginView as AuthLoginView
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from django.views import View
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
-from .models import User_Phone_Num
-from .forms import PhoneForm  # Create this form in forms.py
 from django import forms
-from django.contrib.auth.forms import UserChangeForm
 from django.views.generic import UpdateView
-from django.shortcuts import render, redirect
-from .models import User_Phone_Num
-from .forms import UserPhoneNumForm
+
+
+
 
 class LoginView(AuthLoginView):
     form_class = LoginForm
     template_name = 'login.html'
-
-
-
-
 
 
 def register_customer(request):
@@ -77,6 +61,7 @@ class CombinedUpdateForm(forms.ModelForm):
         fields = ['country', 'state', 'city', 'street', 'postal_code']
 
 
+
 class CombinedUpdateView(UpdateView):
     model = Customer
     template_name = 'profile.html'
@@ -97,20 +82,19 @@ class CombinedUpdateView(UpdateView):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
-            'profile_picture': user.Image,
-            # Add any other fields you need
+            'profile_picture': user.Image if user.Image else None,
         })
         return initial
+
     def get_form(self, form_class=None):
-        # Add User fields to the form
         form = super().get_form(form_class)
         user = self.request.user
         form.fields['first_name'] = forms.CharField(initial=user.first_name)
         form.fields['last_name'] = forms.CharField(initial=user.last_name)
         form.fields['email'] = forms.EmailField(initial=user.email)
-        form.fields['profile_picture'] = forms.ImageField(initial=user.Image)
+        form.fields['profile_picture'] = forms.ImageField(initial=user.Image if user.Image else None, required=False)
         return form
-
+    
     def form_valid(self, form):
         # Handle updating Customer model
         customer = form.instance
@@ -122,7 +106,7 @@ class CombinedUpdateView(UpdateView):
         customer.save()
 
         # Handle updating User model
-        user = customer.User  # Use the actual field name
+        user = customer.User
         user.first_name = form.cleaned_data['first_name']
         user.last_name = form.cleaned_data['last_name']
         user.email = form.cleaned_data['email']
@@ -133,22 +117,25 @@ class CombinedUpdateView(UpdateView):
         # Update profile picture
         profile_picture = form.cleaned_data['profile_picture']
         if profile_picture:
+            # If a new image is provided, delete the old one
+            
+            
+            # Save the new image
             user.Image = profile_picture
 
         user.save()
 
         return super().form_valid(form)
 
-
     def get_success_url(self):
         return reverse_lazy('profile')
-    
 
-
-# in your views.py file
-
-
-# views.py
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Retrieve the user's phone numbers
+        user_phone_numbers = User_Phone_Num.objects.filter(User=self.request.user)
+        context['user_phone_numbers'] = user_phone_numbers
+        return context
 
 
 
@@ -193,8 +180,4 @@ def delete_phone_number(request, pk):
 
 
 
-def phone(request):
-    # Your existing profile logic, retrieve other profile-related information if needed
-    user_phone_numbers = User_Phone_Num.objects.filter(User=request.user)
 
-    return render(request, 'profile.html', {'user_phone_numbers': user_phone_numbers})

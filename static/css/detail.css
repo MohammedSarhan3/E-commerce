@@ -54,15 +54,15 @@ text-color {
 
 .custom-btn {
     text-transform: capitalize;
-    background-color: #0a53be;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     width: 150px;
     height: 40px;
     border-radius: 0;
 }
 
 .custom-btn:hover {
-    background-color: #0a53be !important;
+    background-color: #084390 !important;
     font-size: 18px;
     color: white !important;
 }
